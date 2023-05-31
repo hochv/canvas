@@ -18,7 +18,7 @@ const mouseCoordinate = {
 canvas.addEventListener("mousemove", (evt) => {
   mouseCoordinate.x = evt.x;
   mouseCoordinate.y = evt.y;
-  for (let i = 0; i < 4; i++) {
+  for (let i = 0; i < 3; i++) {
     circleArray.push(new Circle());
   }
 });
@@ -27,8 +27,6 @@ class Circle {
   constructor() {
     this.x = mouseCoordinate.x;
     this.y = mouseCoordinate.y;
-    // this.x = Math.random() * canvas.width;
-    // this.y = Math.random() * canvas.height;
     this.size = Math.random() * 5 + 1; // random between 1 --> 6
     this.speedX = Math.random() * 3 - 1.5; // random between 1.5 --> -1.5
     this.speedY = Math.random() * 3 - 1.5; // random between 1.5 --> -1.5
@@ -54,6 +52,19 @@ const handleCircle = () => {
   for (let i = 0; i < circleArray.length; i++) {
     circleArray[i].update();
     circleArray[i].draw();
+    for (let j = i; j < circleArray.length; j++) {
+      const dx = circleArray[i].x - circleArray[j].x; // canh goc vuong 1 cua tam giac vuong
+      const dy = circleArray[i].y - circleArray[j].y; // canh 2 cua tam gac vuong
+      const distance = Math.sqrt(dx * dx + dy * dy); // dung pytago tinh canh huyen
+      if (distance < 50 && distance > 20) {
+        context.beginPath();
+        context.lineWidth = circleArray[i].size / 8;
+        context.strokeStyle = circleArray[i].color;
+        context.moveTo(circleArray[i].x, circleArray[i].y);
+        context.lineTo(circleArray[j].x, circleArray[j].y);
+        context.stroke();
+      }
+    }
     if (circleArray[i].size <= 0.3) {
       // if circle smaller than 0.3 => remove it
       circleArray.splice(i, 1); // cause remove one so next element being skipped => add i--
