@@ -15,7 +15,7 @@ const mouseCoordinate = {
   y: undefined,
 };
 
-canvas.addEventListener("mousemove", (evt) => {
+window.addEventListener("mousemove", (evt) => {
   mouseCoordinate.x = evt.x;
   mouseCoordinate.y = evt.y;
   for (let i = 0; i < 3; i++) {
